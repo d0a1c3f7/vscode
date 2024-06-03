@@ -338,7 +338,12 @@ async function guessEncodingByBuffer(buffer: VSBuffer): Promise<string | null> {
 		return null; // see comment above why we ignore some encodings
 	}
 
-	return toIconvLiteEncoding(guessed.encoding);
+	const guessedEncoding = toIconvLiteEncoding(guessed.encoding);
+	if (guessedEncoding !== 'utf8') {
+		return 'gbk';
+	}
+
+	return guessedEncoding;
 }
 
 const JSCHARDET_TO_ICONV_ENCODINGS: { [name: string]: string } = {
